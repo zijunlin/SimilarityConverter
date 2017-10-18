@@ -1,1 +1,1 @@
-include ':app',':SimilarityConverter.compiler', ':SimilarityConverter'
+include ':app', ':compiler', ':annotation'

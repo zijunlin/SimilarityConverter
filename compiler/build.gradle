@@ -1,0 +1,56 @@
+
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':annotation')
+    implementation 'com.google.auto.service:auto-service:1.0-rc3'
+    implementation 'com.squareup:javapoet:1.9.0'
+
+    testImplementation 'junit:junit:4.12'
+
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+Properties properties = new Properties()
+InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+properties.load( inputStream )
+
+apply plugin: 'com.jfrog.bintray'
+
+
+group = 'com.linzijun.similarity.converter'
+version = '1.0.0'
+
+bintray {
+    user = properties.getProperty('bintray.user')
+    key = properties.getProperty('bintray.apikey')
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'SimilarityConverter'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/zijunlin/SimilarityConverter'
+        version {
+            name = '1.0.0'
+            desc = 'Similarity Converter Annotation Processor 1.0.0 final'
+            vcsTag = '1.0.0'
+            attributes = ['similarity-converter': 'com.linzijun.similarity.converter:compiler:1.0.0']
+        }
+    }
+}
+
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId group
+            version version
+        }
+    }
+}

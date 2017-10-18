@@ -18,8 +18,7 @@ import javax.tools.Diagnostic;
 
 @AutoService(Processor.class)
 @SupportedAnnotationTypes({
-        "com.linzijun.similarity.converter.annotation.AutoConverter",
-        "com.linzijun.similarity.converter.annotation.ConverterMethod"
+        "com.linzijun.similarity.converter.annotation.AutoConverter"
 })
 public class ConverterApt extends AbstractProcessor {
 
@@ -27,11 +26,13 @@ public class ConverterApt extends AbstractProcessor {
     private Context context;
     private JavaFileGenerator generator;
 
+
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
         context = new ContextImpl(processingEnvironment);
         generator = new JavaFileGenerator(context);
+
     }
 
     @Override

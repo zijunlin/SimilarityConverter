@@ -10,6 +10,8 @@ Domain、DTO、Entity、ViewModel usuasl is more similay. so we can generate a c
    First include SimilarityConverter into your project, we use Android Studio, add line on you build.gradle dependency:
 
 ```
+implementation 'com.linzijun.similarity.converter:annotation:1.0.0'
+annotationProcessor 'com.linzijun.similarity.converter:compiler:1.0.0'
 ```
 
 ## Simple
