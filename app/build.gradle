@@ -28,6 +28,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
 
-    implementation project(':annotation')
-    annotationProcessor project(':compiler')
+    implementation 'com.linzijun.similarity.converter:annotation:1.0.0'
+    annotationProcessor 'com.linzijun.similarity.converter:compiler:1.0.0'
 }
