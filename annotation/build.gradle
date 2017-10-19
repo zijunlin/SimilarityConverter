@@ -4,46 +4,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
 
-Properties properties = new Properties()
-InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
-properties.load( inputStream )
-
-apply plugin: 'com.jfrog.bintray'
-
-
-group = 'com.linzijun.similarity.converter'
-version = '1.0.0'
-
-bintray {
-    user = properties.getProperty('bintray.user')
-    key = properties.getProperty('bintray.apikey')
-    configurations = ['archives']
-    pkg {
-        repo = 'maven'
-        name = 'SimilarityConverter'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/zijunlin/SimilarityConverter'
-        version {
-            name = '1.0.0'
-            desc = 'Similarity Converter  1.0.0 final'
-            vcsTag = '1.0.0'
-            attributes = ['similarity-converter': 'com.linzijun.similarity.converter:similarity-converter:1.0.0']
-        }
-    }
-}
-
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
-
-publishing {
-    publications {
-        MyPublication(MavenPublication) {
-            from components.java
-            groupId group
-            version version
-        }
-    }
-}
+apply from: '../publish.gradle'

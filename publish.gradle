@@ -1,0 +1,102 @@
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmmss')
+    return formattedDate
+}
+
+ext {
+
+    GROUP_ID = 'com.linzijun.similarity.converter'
+    VERSION = '1.0.0'+"-"+getDate()
+
+    PROJECT_DESCRIPTION = 'Similarity.Converter  is an Annotation Processor ,use to generate converter code.'
+    PROJECT_NAME = 'SimilarityConverter'
+    PROJECT_URL = 'https://github.com/zijunlin/SimilarityConverter'
+
+    DEVELOPER_ID = 'linzijun'
+    DEVELOPER_NAME = 'zijun.lin'
+    DEVELOPER_EMAIL = 'linzijun.programmer@gmail.com'
+    CODE_URL = 'https://github.com/zijunlin/SimilarityConverter'
+}
+
+
+group = GROUP_ID
+version = VERSION
+
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id DEVELOPER_ID
+            name DEVELOPER_NAME
+            email DEVELOPER_EMAIL
+        }
+    }
+
+    scm {
+        url CODE_URL
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId group
+            version version
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', PROJECT_DESCRIPTION)
+                root.appendNode('name', PROJECT_NAME)
+                root.appendNode('url', PROJECT_URL)
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+
+
+Properties properties = new Properties()
+InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+properties.load(inputStream)
+
+
+
+bintray {
+    user = properties.getProperty('bintray.user')
+    key = properties.getProperty('bintray.apikey')
+    publications = ['MyPublication']
+    pkg {
+        repo = 'maven'
+        name = PROJECT_NAME
+        licenses = ['Apache-2.0']
+        vcsUrl = CODE_URL
+    }
+}
+
+bintrayUpload.dependsOn publishToMavenLocal
