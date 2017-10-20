@@ -7,11 +7,16 @@ Domain、DTO、Entity、ViewModel usuasl is more similay. so we can generate a c
 
 ## Getting Started
 
-   First include SimilarityConverter into your project, we use Android Studio, add line on you build.gradle dependency:
+   First include SimilarityConverter into your project, we use Android Studio, add this line on you build.gradle dependency:
 
 ```
 implementation 'com.linzijun.similarity.converter:annotation:1.0.0'
 annotationProcessor 'com.linzijun.similarity.converter:compiler:1.0.0'
+```
+In Adroid Studio 2.0 
+```
+ compile 'com.linzijun.similarity.converter:annotation:1.0.0'
+ apt 'com.linzijun.similarity.converter:compiler:1.0.0'
 ```
 
 ## Simple
@@ -80,6 +85,10 @@ public class BaseEntity {
 }
 
 ```
+
+
+
+
 After build SimilarityConverter would generate a converter like that :
 ``` java
 public final class CommentEntity_Comment_Converter {
